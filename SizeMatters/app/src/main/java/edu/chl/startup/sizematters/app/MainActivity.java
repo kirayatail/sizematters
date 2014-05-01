@@ -56,10 +56,23 @@ public class MainActivity extends Activity implements SensorEventListener{
     private  Sensor mAccelerometer;
     private double[] gravity = new double[]{9.81,9.81,9.81};
     private double[] linear_acceleration = new double[3];
+    private double[] speed = new double[3];
+    private double[] distance = new double[3];
 
-    private TextView outputX;
-    private TextView outputY;
-    private TextView outputZ;
+
+    private TextView accX;
+    private TextView accY;
+    private TextView accZ;
+
+    private TextView speedX;
+    private TextView speedY;
+    private TextView speedZ;
+
+    private TextView distanceX;
+    private TextView distanceY;
+    private TextView distanceZ;
+
+    private long oldTimeStamp = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,11 +143,19 @@ public class MainActivity extends Activity implements SensorEventListener{
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+        //findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 
-        outputX = (TextView) findViewById(R.id.textView);
-        outputY = (TextView) findViewById(R.id.textView2);
-        outputZ = (TextView) findViewById(R.id.textView3);
+        accX = (TextView) findViewById(R.id.accX);
+        accY = (TextView) findViewById(R.id.accY);
+        accZ = (TextView) findViewById(R.id.accZ);
+
+        speedX = (TextView) findViewById(R.id.speedX);
+        speedY = (TextView) findViewById(R.id.speedY);
+        speedZ = (TextView) findViewById(R.id.speedZ);
+
+        distanceX = (TextView) findViewById(R.id.distanceX);
+        distanceY = (TextView) findViewById(R.id.distanceY);
+        distanceZ = (TextView) findViewById(R.id.distanceZ);
 
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -187,7 +208,7 @@ public class MainActivity extends Activity implements SensorEventListener{
 
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
     }
 
     protected void onPause() {
@@ -203,20 +224,49 @@ public class MainActivity extends Activity implements SensorEventListener{
         // alpha is calculated as t / (t + dT)
         // with t, the low-pass filter's time-constant
         // and dT, the event delivery rate
+        if(oldTimeStamp==0){
+            oldTimeStamp = event.timestamp;
+        }
 
-        final double alpha = 0.8;
 
-        gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
-        gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
-        gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
 
-        linear_acceleration[0] = event.values[0] - gravity[0];
-        linear_acceleration[1] = event.values[1] - gravity[1];
-        linear_acceleration[2] = event.values[2] - gravity[2];
 
-        outputX.setText("acclaration x:"+Double.toString(linear_acceleration[0]));
-        outputY.setText("acclaration y:"+Double.toString(linear_acceleration[1]));
-        outputZ.setText("acclaration z:"+Double.toString(linear_acceleration[2]));
+            final double alpha = 0.8;
+
+            gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
+            gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
+            gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
+
+            linear_acceleration[0] = event.values[0] - gravity[0];
+            linear_acceleration[1] = event.values[1] - gravity[1];
+            linear_acceleration[2] = event.values[2] - gravity[2];
+
+            accX.setText("acclaration x:" + String.format("%.3f%n", linear_acceleration[0]));
+            accY.setText("acclaration y:" + String.format("%.3f%n", linear_acceleration[1]));
+            accZ.setText("acclaration z:" + String.format("%.3f%n", linear_acceleration[2]));
+
+            long time = event.timestamp - oldTimeStamp;
+            double sec = (time / (1000000000));
+
+            speed[0] = linear_acceleration[0] * time;
+            speed[1] = linear_acceleration[1] * time;
+            speed[2] = linear_acceleration[2] * time;
+
+            speedX.setText("speed x:" + String.format("%.3f%n", speed[0]));
+            speedY.setText("speed y:" + String.format("%.3f%n", speed[1]));
+            speedZ.setText("speed z:" + String.format("%.3f%n", speed[2]));
+
+            distance[0] = distance[0] + linear_acceleration[0] * sec * sec;
+            distance[1] = distance[1] + linear_acceleration[1] * sec * sec;
+            distance[2] = distance[2] + linear_acceleration[2] * sec * sec;
+
+            distanceX.setText("distance x:" + String.format("%.3f%n", distance[0]));
+            distanceY.setText("distance y:" + String.format("%.3f%n", distance[1]));
+            distanceZ.setText("distance z:" + String.format("%.3f%n", distance[2]));
+
+            oldTimeStamp = event.timestamp;
+
+        
 
     }
 }
