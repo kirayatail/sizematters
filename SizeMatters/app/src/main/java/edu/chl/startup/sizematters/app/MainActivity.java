@@ -4,11 +4,16 @@ import edu.chl.startup.sizematters.app.util.SystemUiHider;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 
 /**
@@ -17,7 +22,7 @@ import android.view.View;
  *
  * @see SystemUiHider
  */
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements SensorEventListener{
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -46,14 +51,27 @@ public class MainActivity extends Activity {
      */
     private SystemUiHider mSystemUiHider;
 
+
+    private  SensorManager mSensorManager;
+    private  Sensor mAccelerometer;
+    private double[] gravity = new double[]{9.81,9.81,9.81};
+    private double[] linear_acceleration = new double[3];
+
+    private TextView outputX;
+    private TextView outputY;
+    private TextView outputZ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         setContentView(R.layout.activity_main);
 
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
+
+
 
         // Set up an instance of SystemUiHider to control the system UI for
         // this activity.
@@ -113,6 +131,15 @@ public class MainActivity extends Activity {
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
         findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+
+        outputX = (TextView) findViewById(R.id.textView);
+        outputY = (TextView) findViewById(R.id.textView2);
+        outputZ = (TextView) findViewById(R.id.textView3);
+
+        mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -156,5 +183,40 @@ public class MainActivity extends Activity {
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    }
+
+    protected void onResume() {
+        super.onResume();
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    protected void onPause() {
+        super.onPause();
+        mSensorManager.unregisterListener(this);
+    }
+
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
+
+    public void onSensorChanged(SensorEvent event) {
+
+        // alpha is calculated as t / (t + dT)
+        // with t, the low-pass filter's time-constant
+        // and dT, the event delivery rate
+
+        final double alpha = 0.8;
+
+        gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
+        gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
+        gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
+
+        linear_acceleration[0] = event.values[0] - gravity[0];
+        linear_acceleration[1] = event.values[1] - gravity[1];
+        linear_acceleration[2] = event.values[2] - gravity[2];
+
+        outputX.setText("acclaration x:"+Double.toString(linear_acceleration[0]));
+        outputY.setText("acclaration y:"+Double.toString(linear_acceleration[1]));
+        outputZ.setText("acclaration z:"+Double.toString(linear_acceleration[2]));
+
     }
 }

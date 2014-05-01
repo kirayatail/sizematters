@@ -4,5 +4,8 @@
     <string name="app_name">SizeMatters</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="textView1">New Text</string>
+    <string name="textView2">New Text</string>
+    <string name="textView3">New Text</string>
 
 </resources>
