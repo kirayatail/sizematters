@@ -13,14 +13,21 @@
             android:label="@string/app_name"
             android:theme="@style/FullscreenTheme" >
         </activity>
-        <activity android:name=".StartActivity">
+        <activity android:name="edu.chl.startup.sizematters.app.StartActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".MeasureActivity" />
         <activity android:name=".BrowseDetailsActivity" />
+        <activity
+            android:name="edu.chl.startup.sizematters.app.PickMeassurementActivity"
+            android:label="@string/title_activity_pick_meassurement" >
+        </activity>
+
     </application>
 
 </manifest>

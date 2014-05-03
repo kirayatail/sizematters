@@ -13,6 +13,12 @@
     <string name="textView7">New Text</string>
     <string name="textView8">New Text</string>
     <string name="textView9">New Text</string>
+<<<<<<< Updated upstream
     <string name="show_detailsView">Show measurements</string>
+=======
+    <string name="title_activity_pick_meassurement">PickMeassurementActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+>>>>>>> Stashed changes
 
 </resources>

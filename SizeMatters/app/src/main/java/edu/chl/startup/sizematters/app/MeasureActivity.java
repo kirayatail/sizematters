@@ -45,6 +45,7 @@ public class MeasureActivity extends Activity {
                 startActivity(activityIntent);
             }
         });
+
     }
 
 
