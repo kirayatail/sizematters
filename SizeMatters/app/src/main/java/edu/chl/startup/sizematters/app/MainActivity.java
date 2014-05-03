@@ -11,9 +11,15 @@ import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+
+import java.security.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -53,11 +59,13 @@ public class MainActivity extends Activity implements SensorEventListener{
 
 
     private  SensorManager mSensorManager;
-    private  Sensor mAccelerometer;
-    private double[] gravity = new double[]{9.81,9.81,9.81};
+    private  Sensor mLinearAccelerator;
+    private double[] gravity = new double[]{0,0,0};
     private double[] linear_acceleration = new double[3];
     private double[] speed = new double[3];
     private double[] distance = new double[3];
+
+    double startTimeStamp=0;
 
 
     private TextView accX;
@@ -72,8 +80,143 @@ public class MainActivity extends Activity implements SensorEventListener{
     private TextView distanceY;
     private TextView distanceZ;
 
+    private double startUpTime;
+
     private long oldTimeStamp = 0;
 
+    private ArrayList<Double> listTime = new ArrayList<Double>();
+
+    private ArrayList<Double> listAccX = new ArrayList<Double>();
+
+    private ArrayList<Double> listAccY = new ArrayList<Double>();
+
+    private ArrayList<Double> listAccZ = new ArrayList<Double>();
+
+    double timeTaken = 0;
+
+    public void onSensorChanged(SensorEvent event) {
+
+        // alpha is calculated as t / (t + dT)
+        // with t, the low-pass filter's time-constant
+        // and dT, the event delivery rate
+        if(oldTimeStamp==0){
+            oldTimeStamp = event.timestamp;
+        }
+        if(startTimeStamp==0){
+            startTimeStamp=event.timestamp;
+        }
+        /*
+        final double alpha = 0.8;
+
+        gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
+        gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
+        gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
+        */
+        timeTaken = event.timestamp-startTimeStamp;
+       // Log.d("Messuer",Double.toString(timeTaken));
+        if(timeTaken > (double)(100.0)) {
+
+
+
+/*
+            linear_acceleration[0] = event.values[0] - gravity[0];
+            linear_acceleration[1] = event.values[1] - gravity[1];
+            linear_acceleration[2] = event.values[2] - gravity[2];
+  */
+            linear_acceleration[0] = event.values[0];
+            linear_acceleration[1] = event.values[1];
+            linear_acceleration[2] = event.values[2];
+
+            listAccX.add(linear_acceleration[0]);
+            listAccY.add(linear_acceleration[1]);
+            listAccZ.add(linear_acceleration[2]);
+        /*
+        accX.setText("acclaration x:" + String.format("%.3f%n", linear_acceleration[0]));
+        accY.setText("acclaration y:" + String.format("%.3f%n", linear_acceleration[1]));
+        accZ.setText("acclaration z:" + String.format("%.3f%n", linear_acceleration[2]));
+        */
+            long time = event.timestamp - oldTimeStamp;
+
+
+            double sec = (time / (double) (1000000000));
+
+            listTime.add(sec);
+
+            double avgSec = calculateAverage(listTime);
+            double avgX = calculateAverage(listAccX);
+            double avgY = calculateAverage(listAccY);
+            double avgZ = calculateAverage(listAccZ);
+
+
+
+        /*
+        speed[0] = speed[0] + linear_acceleration[0] * sec;
+        speed[1] = speed[1] + linear_acceleration[1] * sec;
+        speed[2] = speed[2] + linear_acceleration[2] * sec;
+        */
+
+            speed[0] = avgX * avgSec;
+            speed[1] = avgY * avgSec;
+            speed[2] = avgZ * avgSec;
+
+
+
+            double totalTime = avgSec * listTime.size();
+            double totalTime2 = totalTime * totalTime;
+            // times 100 to get centimeters
+            distance[0] = (avgX * totalTime2) / 100;
+            distance[1] = (avgY * totalTime2) / 100;
+            distance[2] = (avgZ * totalTime2) / 100;
+
+            timeTaken = (event.timestamp - oldTimeStamp)/(double)(1000000000);
+            if(listTime.size()%20==0) {
+
+                accX.setText("acclaration x:" + String.format("%.3f%n", avgX));
+                accY.setText("acclaration y:" + String.format("%.3f%n", avgY));
+                accZ.setText("acclaration z:" + String.format("%.3f%n", avgZ));
+
+
+                speedX.setText("speed x:" + String.format("%.3f%n", speed[0]));
+                speedY.setText("speed y:" + String.format("%.3f%n", speed[1]));
+                speedZ.setText("speed z:" + String.format("%.3f%n", speed[2]));
+
+                distanceX.setText("distance x:" + String.format("%.3f%n", distance[0]));
+                distanceY.setText("distance y:" + String.format("%.3f%n", distance[1]));
+                distanceZ.setText("distance z:" + String.format("%.3f%n", distance[2]));
+
+
+
+            }
+            double temp = linear_acceleration[0];
+
+            Log.d("ACCX", Double.toString(linear_acceleration[0]));
+                Log.d("ACCY", Double.toString(linear_acceleration[1]));
+                Log.d("ACCZ", Double.toString(linear_acceleration[2]));
+
+
+
+        }else{
+            Log.d("before ACCX", Double.toString(event.values[0]));
+            Log.d("before ACCY", Double.toString(event.values[1]));
+            Log.d("before ACCZ", Double.toString(event.values[2]));
+
+
+        }
+
+        oldTimeStamp = event.timestamp;
+
+    }
+
+    private double calculateAverage(List <Double> marks) {
+        Double sum = 0.0;
+        if(!marks.isEmpty()) {
+            for (Double mark : marks) {
+                sum += mark;
+            }
+            return sum.doubleValue() / marks.size();
+        }
+        return sum;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +224,7 @@ public class MainActivity extends Activity implements SensorEventListener{
 
         setContentView(R.layout.activity_main);
 
-        final View controlsView = findViewById(R.id.fullscreen_content_controls);
+        //final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
 
 
@@ -98,7 +241,9 @@ public class MainActivity extends Activity implements SensorEventListener{
 
                     @Override
                     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+
                     public void onVisibilityChange(boolean visible) {
+                        /*
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
                             // If the ViewPropertyAnimator API is available
                             // (Honeycomb MR2 and later), use it to animate the
@@ -125,7 +270,9 @@ public class MainActivity extends Activity implements SensorEventListener{
                             // Schedule a hide().
                             delayedHide(AUTO_HIDE_DELAY_MILLIS);
                         }
+                    */
                     }
+
                 });
 
         // Set up the user interaction to manually show or hide the system UI.
@@ -158,9 +305,9 @@ public class MainActivity extends Activity implements SensorEventListener{
         distanceZ = (TextView) findViewById(R.id.distanceZ);
 
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
-        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mLinearAccelerator = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 
-        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mLinearAccelerator, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -208,7 +355,7 @@ public class MainActivity extends Activity implements SensorEventListener{
 
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(this, mLinearAccelerator, SensorManager.SENSOR_DELAY_UI);
     }
 
     protected void onPause() {
@@ -219,54 +366,5 @@ public class MainActivity extends Activity implements SensorEventListener{
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 
-    public void onSensorChanged(SensorEvent event) {
 
-        // alpha is calculated as t / (t + dT)
-        // with t, the low-pass filter's time-constant
-        // and dT, the event delivery rate
-        if(oldTimeStamp==0){
-            oldTimeStamp = event.timestamp;
-        }
-
-
-
-
-            final double alpha = 0.8;
-
-            gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
-            gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
-            gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
-
-            linear_acceleration[0] = event.values[0] - gravity[0];
-            linear_acceleration[1] = event.values[1] - gravity[1];
-            linear_acceleration[2] = event.values[2] - gravity[2];
-
-            accX.setText("acclaration x:" + String.format("%.3f%n", linear_acceleration[0]));
-            accY.setText("acclaration y:" + String.format("%.3f%n", linear_acceleration[1]));
-            accZ.setText("acclaration z:" + String.format("%.3f%n", linear_acceleration[2]));
-
-            long time = event.timestamp - oldTimeStamp;
-            double sec = (time / (1000000000));
-
-            speed[0] = linear_acceleration[0] * time;
-            speed[1] = linear_acceleration[1] * time;
-            speed[2] = linear_acceleration[2] * time;
-
-            speedX.setText("speed x:" + String.format("%.3f%n", speed[0]));
-            speedY.setText("speed y:" + String.format("%.3f%n", speed[1]));
-            speedZ.setText("speed z:" + String.format("%.3f%n", speed[2]));
-
-            distance[0] = distance[0] + linear_acceleration[0] * sec * sec;
-            distance[1] = distance[1] + linear_acceleration[1] * sec * sec;
-            distance[2] = distance[2] + linear_acceleration[2] * sec * sec;
-
-            distanceX.setText("distance x:" + String.format("%.3f%n", distance[0]));
-            distanceY.setText("distance y:" + String.format("%.3f%n", distance[1]));
-            distanceZ.setText("distance z:" + String.format("%.3f%n", distance[2]));
-
-            oldTimeStamp = event.timestamp;
-
-        
-
-    }
 }
