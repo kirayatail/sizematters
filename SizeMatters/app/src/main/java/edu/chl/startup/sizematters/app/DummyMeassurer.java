@@ -19,28 +19,16 @@ public class DummyMeassurer implements SensorEventListener {
 
     private static SensorManager mSensorManager;
     private static Sensor mLinearAccelerator;
-    private double[] gravity = new double[]{0,0,0};
-    private double[] oldLinear_acceleration = new double[3];
-    private double[] linear_acceleration = new double[3];
-    private double[] oldspeed = new double[3];
-    private double[] speed = new double[3];
+    private static double[] oldLinear_acceleration = new double[3];
+    private static double[] linear_acceleration = new double[3];
+    private static double[] oldspeed = new double[3];
+    private static double[] speed = new double[3];
     private static double[] distance = new double[3];
 
     double startTimeStamp=0;
 
 
-    private TextView accX;
-    private TextView accY;
-    private TextView accZ;
 
-    private TextView speedX;
-    private TextView speedY;
-    private TextView speedZ;
-    private TextView accuresity;
-
-    private TextView distanceX;
-    private TextView distanceY;
-    private TextView distanceZ;
 
     private double startUpTime;
 
@@ -70,12 +58,22 @@ public class DummyMeassurer implements SensorEventListener {
         mLinearAccelerator = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 
         mSensorManager.registerListener(db, mLinearAccelerator, SensorManager.SENSOR_DELAY_NORMAL);
+
+       oldLinear_acceleration = new double[3];
+      linear_acceleration = new double[3];
+      oldspeed = new double[3];
+      speed = new double[3];
+      distance = new double[3];
+
+        double startTimeStamp=0;
+
+
         return true;
     }
 
     public static double[] stopMeassure(Activity a){
         mSensorManager.unregisterListener(db);
-        return new double[] {distance[0]*100*magicalNummber, distance[1]*100*magicalNummber, distance[0]*100*magicalNummber};
+        return new double[] {distance[0]*100*magicalNummber, distance[1]*100*magicalNummber, distance[2]*100*magicalNummber};
     }
 
 
@@ -132,9 +130,9 @@ public class DummyMeassurer implements SensorEventListener {
             if(linear_acceleration[2]<0.04){
                 linear_acceleration[2]=0;
             }
-            Log.d("acc",""+linear_acceleration[0]);
-            Log.d("acc",""+linear_acceleration[1]);
-            Log.d("acc",""+linear_acceleration[2]);
+           // Log.d("acc",""+linear_acceleration[0]);
+           // Log.d("acc",""+linear_acceleration[1]);
+           // Log.d("acc",""+linear_acceleration[2]);
 
             listAccX.add(linear_acceleration[0]);
             listAccY.add(linear_acceleration[1]);
@@ -171,9 +169,9 @@ public class DummyMeassurer implements SensorEventListener {
                 speed[2] =0;
             }
 
-            distance[0] = distance[0] + ((speed[0]+oldspeed[0])/2) * sec;
-            distance[1] = distance[1] + ((speed[1]+oldspeed[1])/2) * sec;
-            distance[2] = distance[2] + ((speed[2]+oldspeed[2])/2) * sec;
+            distance[0] = distance[0] + speed[0] * sec;
+            distance[1] = distance[1] + speed[1]+oldspeed[1] * sec;
+            distance[2] = distance[2] + speed[2]+oldspeed[2] * sec;
             //distance[0] = (avgX * totalTime2) ;
             //distance[1] = (avgY * totalTime2) ;
             //distance[2] = (avgZ * totalTime2) ;
@@ -202,9 +200,9 @@ public class DummyMeassurer implements SensorEventListener {
                 distanceZ.setText("distance z:" + String.format("%.3f%n", distance[2]*100*magicalNummber));
             */
 
-                Log.d("distance",""+distance[0]*100*magicalNummber);
-                Log.d("distance",""+distance[0]*100*magicalNummber);
-                Log.d("distance",""+distance[0]*100*magicalNummber);
+           //     Log.d("distance",""+distance[0]*100*magicalNummber);
+           //     Log.d("distance",""+distance[0]*100*magicalNummber);
+           //     Log.d("distance",""+distance[0]*100*magicalNummber);
             }
             double temp = linear_acceleration[0];
 

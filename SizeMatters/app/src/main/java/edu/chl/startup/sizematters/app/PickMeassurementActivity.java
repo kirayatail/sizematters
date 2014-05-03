@@ -11,6 +11,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 
 public class PickMeassurementActivity extends Activity {
 
@@ -151,24 +153,25 @@ public class PickMeassurementActivity extends Activity {
 
         }
 
-        String[] types = new String[3];
-        double[] values = new double[3];
+        ArrayList<String> types = new ArrayList<String>();
+        ArrayList<Double> values = new ArrayList<Double>();
         if(distance){
-            types[0] = Constants.DISTANCE;
-            values[0] = calcDistance(x,y,z); //TODO check what values to cal on
+            types.add(Constants.DISTANCE);
+            values.add(calcDistance(x, y, z)); //TODO check what values to cal on
         }
         if(area){
-            types[1] = Constants.AREA;
-            values[1] = calcAREA(x,y); //TODO check what values to cal on
+            types.add(Constants.AREA);
+            values.add(calcAREA(x, y)); //TODO check what values to cal on
         }
         if(volume){
-            types[2] = Constants.DISTANCE;
-            values[2] = calcVol(x,y,z); //TODO check what values to cal on
+            types.add(Constants.DISTANCE);
+            values.add(calcVol(x, y, z)); //TODO check what values to cal on
         }
 
-
-        activityIntent.putExtra(Constants.AGG_MEASSURMENT_KEY, values);
-        activityIntent.putExtra(Constants.MEASSURMENT_TYPE_KEY, types);
+        String[] typeArr = types.toArray(new String[types.size()]);
+        Double[] valueArr = values.toArray(new Double[values.size()]);
+        activityIntent.putExtra(Constants.AGG_MEASSURMENT_KEY, valueArr);
+        activityIntent.putExtra(Constants.MEASSURMENT_TYPE_KEY, typeArr);
         startActivity(activityIntent);
     }
 
