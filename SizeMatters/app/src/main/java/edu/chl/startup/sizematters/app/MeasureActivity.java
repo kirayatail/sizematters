@@ -22,8 +22,8 @@ public class MeasureActivity extends Activity {
         Bundle extras = getIntent().getExtras();
         if(extras != null && extras.containsKey(Constants.SIZEOBJECT_ID)) {
             this.currentObjectID = extras.getInt(Constants.SIZEOBJECT_ID);
+            Log.i("sizematters", currentObjectID+"");
         }
-
         setupControls();
         Log.d("MeassureActivity", "SetupConrols finished");
 
