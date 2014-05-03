@@ -86,7 +86,6 @@ public class EditObjectActivity extends Activity {
         this.sizeObject.save(this);
 
         Intent activityIntent = new Intent(this, BrowseDetailsActivity.class);
-        activityIntent.putExtra(Constants.SIZEOBJECT_ID,sizeObject.getId());
         startActivity(activityIntent);
     }
 

@@ -14,14 +14,15 @@
             android:theme="@style/FullscreenTheme" >
         </activity>
         <activity android:name="edu.chl.startup.sizematters.app.StartActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name="edu.chl.startup.sizematters.app.MeasureActivity" />
         <activity android:name="edu.chl.startup.sizematters.app.BrowseDetailsActivity" />
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         <activity
             android:name="edu.chl.startup.sizematters.app.PickMeassurementActivity"
             android:label="@string/title_activity_pick_meassurement" >
