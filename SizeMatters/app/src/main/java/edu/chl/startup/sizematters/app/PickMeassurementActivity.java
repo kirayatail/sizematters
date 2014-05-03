@@ -169,7 +169,12 @@ public class PickMeassurementActivity extends Activity {
         }
 
         String[] typeArr = types.toArray(new String[types.size()]);
-        Double[] valueArr = values.toArray(new Double[values.size()]);
+
+        double[] valueArr = new double[values.size()];
+        for(int i = 0; i < valueArr.length; i++){
+            valueArr[i] = values.get(i);
+        }
+
         activityIntent.putExtra(Constants.AGG_MEASSURMENT_KEY, valueArr);
         activityIntent.putExtra(Constants.MEASSURMENT_TYPE_KEY, typeArr);
         startActivity(activityIntent);
