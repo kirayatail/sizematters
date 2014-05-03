@@ -27,7 +27,8 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:weightSum="1">
 
             <TextView
                 android:layout_width="222dp"
@@ -91,6 +92,14 @@
                 android:text="@string/textView3"
                 android:id="@+id/distanceZ"
                 android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/accuresity"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.28" />
 
         </LinearLayout>
     </FrameLayout>

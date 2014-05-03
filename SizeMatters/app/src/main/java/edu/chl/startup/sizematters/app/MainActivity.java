@@ -77,6 +77,7 @@ public class MainActivity extends Activity implements SensorEventListener{
     private TextView speedX;
     private TextView speedY;
     private TextView speedZ;
+    private TextView accuresity;
 
     private TextView distanceX;
     private TextView distanceY;
@@ -94,7 +95,14 @@ public class MainActivity extends Activity implements SensorEventListener{
 
     private ArrayList<Double> listAccZ = new ArrayList<Double>();
 
+    private ArrayList<Double> accuresityArray = new ArrayList<Double>();
+
+
     double timeTaken = 0;
+
+    double magicalNummber= 1.2;
+
+
 
     public void onSensorChanged(SensorEvent event) {
 
@@ -203,20 +211,27 @@ public class MainActivity extends Activity implements SensorEventListener{
             //distance[2] = (avgZ * totalTime2) ;
 
             timeTaken = (event.timestamp - oldTimeStamp)/(double)(1000000000);
-            if(listTime.size()%20==0) {
+            if(listTime.size()%5==0) {
 
     //            accX.setText("acclaration x:" + String.format("%.3f%n", avgX));
       //          accY.setText("acclaration y:" + String.format("%.3f%n", avgY));
       //          accZ.setText("acclaration z:" + String.format("%.3f%n", avgZ));
+                double accuresityInt= linear_acceleration[0]+linear_acceleration[1]+linear_acceleration[2];
+
+                accuresityArray.add(accuresityInt);
+
+                double accuresityAvr=calculateAverageEnd(accuresityArray,8);
 
 
                 speedX.setText("speed x:" + String.format("%.3f%n", speed[0]));
                 speedY.setText("speed y:" + String.format("%.3f%n", speed[1]));
                 speedZ.setText("speed z:" + String.format("%.3f%n", speed[2]));
 
-                distanceX.setText("distance x:" + String.format("%.3f%n", distance[0]*100));
-                distanceY.setText("distance y:" + String.format("%.3f%n", distance[1]*100));
-                distanceZ.setText("distance z:" + String.format("%.3f%n", distance[2]*100));
+                accuresity.setText("speed z:" + String.format("%.3f%n", accuresityInt));
+
+                distanceX.setText("distance x:" + String.format("%.3f%n", distance[0]*100*magicalNummber));
+                distanceY.setText("distance y:" + String.format("%.3f%n", distance[1]*100*magicalNummber));
+                distanceZ.setText("distance z:" + String.format("%.3f%n", distance[2]*100*magicalNummber));
 
 
 
@@ -241,6 +256,21 @@ public class MainActivity extends Activity implements SensorEventListener{
         oldTimeStamp = event.timestamp;
 
     }
+
+    private double calculateAverageEnd(List <Double> marks,int i) {
+        double returnValure=0;
+        if(marks.size()>i){
+            for (int j = 1; j < i; j++) {
+                returnValure+=marks.get(marks.size()-j);
+            }
+
+            returnValure/=i;
+        }
+        return returnValure;
+    }
+
+
+
 
     private double calculateAverage(List <Double> marks) {
         Double sum = 0.0;
@@ -335,6 +365,10 @@ public class MainActivity extends Activity implements SensorEventListener{
         speedY = (TextView) findViewById(R.id.speedY);
         speedZ = (TextView) findViewById(R.id.speedZ);
 
+
+        accuresity = (TextView) findViewById(R.id.accuresity);
+
+
         distanceX = (TextView) findViewById(R.id.distanceX);
         distanceY = (TextView) findViewById(R.id.distanceY);
         distanceZ = (TextView) findViewById(R.id.distanceZ);
@@ -342,7 +376,11 @@ public class MainActivity extends Activity implements SensorEventListener{
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         mLinearAccelerator = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 
-        mSensorManager.registerListener(this, mLinearAccelerator, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mLinearAccelerator, SensorManager.SENSOR_DELAY_FASTEST);
+
+
+
+
     }
 
     @Override
