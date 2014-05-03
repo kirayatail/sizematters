@@ -150,7 +150,7 @@
                 android:textSize="20dp"
                 android:checked="false"
                 android:clickable="true"
-                android:enabled="false" />
+                android:enabled="true" />
 
             <TextView
                 android:layout_width="wrap_content"
