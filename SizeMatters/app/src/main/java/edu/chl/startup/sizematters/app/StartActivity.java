@@ -63,8 +63,6 @@ public class StartActivity extends Activity {
         Intent activityIntent = new Intent(StartActivity.this, MeasureActivity.class);
         if (currentObjectID != -1) {
             activityIntent.putExtra(Constants.SIZEOBJECT_ID, currentObjectID);
-        } else {
-            activityIntent.putExtra(Constants.SIZEOBJECT_ID, "42");
         }
         Log.d("StartActivity", "Going to meassure activity");
         startActivity(activityIntent);

@@ -23,6 +23,7 @@ public class EditObjectActivity extends Activity {
 
     private int currentObjectID = -1;
     private SizeObject sizeObject = null;
+    private EditText nameText = null;
     private String[] oldKeys;
     private double[] newValues;
     private String[] newKeys;
@@ -34,6 +35,8 @@ public class EditObjectActivity extends Activity {
         setContentView(R.layout.activity_edit_object);
 
         Bundle extras = getIntent().getExtras();
+
+        nameText = (EditText)findViewById(R.id.editObjectActivity_nameText);
         if(extras != null && extras.containsKey(Constants.SIZEOBJECT_ID)) {
             this.currentObjectID = extras.getInt(Constants.SIZEOBJECT_ID);
             this.sizeObject = SizeObject.load(this, currentObjectID);
@@ -43,18 +46,35 @@ public class EditObjectActivity extends Activity {
             for (int i=0; i<oldKeys.length; i++) {
                 oldKeys[i] = entryArray[i].getKey();
             }
+            nameText.setText(sizeObject.getName());
         } else {
             this.sizeObject = new SizeObject(this);
             this.currentObjectID = sizeObject.getId();
             this.oldKeys = new String[0];
+            nameText.setText("<Set the name of the object>");
         }
+
 
         if(extras != null && extras.containsKey(Constants.AGG_MEASSURMENT_KEY)) {
             newKeys = extras.getStringArray(Constants.MEASSURMENT_TYPE_KEY);
             newValues = extras.getDoubleArray(Constants.AGG_MEASSURMENT_KEY);
         }
-
+        initNavButtons();
         makeMeasurementComponents();
+    }
+
+    private void initNavButtons() {
+        Button doneButton = (Button)findViewById(R.id.editObjectActivity_DoneButton);
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditObjectActivity.this.saveObject();
+            }
+        });
+    }
+
+    void saveObject() {
+        //this.sizeObject.setName(((EditText)findViewById()));
     }
 
     private void makeMeasurementComponents() {

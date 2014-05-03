@@ -12,7 +12,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText"
+            android:id="@+id/editObjectActivity_nameText"
             android:background="#FFFFFFFF"
             android:padding="10dp"
             android:layout_margin="20dp" />
@@ -23,6 +23,18 @@
             android:layout_height="fill_parent"
             android:id="@+id/editObjectActivity_tupleLayout"
             android:measureWithLargestChild="true"></LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Done!"
+                android:id="@+id/editObjectActivity_DoneButton" />
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>
