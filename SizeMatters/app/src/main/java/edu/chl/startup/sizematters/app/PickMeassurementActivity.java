@@ -154,7 +154,7 @@ public class PickMeassurementActivity extends Activity {
         String[] types = new String[3];
         double[] values = new double[3];
         if(distance){
-            types[0] = Constants.DISTANCE
+            types[0] = Constants.DISTANCE;
             values[0] = calcDistance(x,y,z); //TODO check what values to cal on
         }
         if(area){
