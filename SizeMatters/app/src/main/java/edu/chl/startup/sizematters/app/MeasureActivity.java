@@ -17,6 +17,7 @@ public class MeasureActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.measureactivitylayout);
+        Log.d("MeassureActivity", "Reached onCreate");
 
         Bundle extras = getIntent().getExtras();
         if(extras != null && extras.containsKey(Constants.SIZEOBJECT_ID)) {
@@ -24,6 +25,7 @@ public class MeasureActivity extends Activity {
         }
 
         setupControls();
+        Log.d("MeassureActivity", "SetupConrols finished");
 
         if(!DummyMeassurer.startMeassure(this)) {
             Log.e("sizematters", "Error starting measurer!");
