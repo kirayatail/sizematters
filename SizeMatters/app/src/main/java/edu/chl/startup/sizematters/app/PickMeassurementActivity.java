@@ -69,7 +69,7 @@ public class PickMeassurementActivity extends Activity {
             if(view.getId() == R.id.backButton){
                 //TODO do stuff
             } else if(view.getId() == R.id.saveButton){
-               viewDetails();
+               editDetails();
             }
         }
     }
@@ -144,8 +144,8 @@ public class PickMeassurementActivity extends Activity {
         }
     }
 
-    private void viewDetails() {
-        Intent activityIntent = new Intent(PickMeassurementActivity.this, BrowseDetailsActivity.class);
+    private void editDetails() {
+        Intent activityIntent = new Intent(PickMeassurementActivity.this, EditObjectActivity.class);
         if (currentObjectID != -1) {
             activityIntent.putExtra(Constants.SIZEOBJECT_ID, currentObjectID);
 
