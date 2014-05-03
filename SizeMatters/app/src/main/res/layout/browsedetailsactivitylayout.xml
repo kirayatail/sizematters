@@ -1,6 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:weightSum="1">
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
 
-</ScrollView>
+    <TextView
+        android:layout_width="136dp"
+        android:layout_height="wrap_content"
+        android:text="objectName"
+        android:id="@+id/objectName"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.09"
+        android:gravity="center_vertical|center_horizontal" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.44"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1.00"
+            android:layout_gravity="left"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Width:"
+                android:id="@+id/textView2"
+                android:layout_weight="0.33"
+                android:textAlignment="center"
+                android:gravity="center_vertical|center_horizontal" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Diagonal"
+                android:id="@+id/textView3"
+                android:layout_weight="0.33"
+                android:gravity="center_vertical|center_horizontal" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Height"
+                android:id="@+id/textView4"
+                android:layout_weight="0.33"
+                android:gravity="center|center_vertical" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="190dp"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="188dp"
+                android:layout_height="wrap_content"
+                android:text="0.0 m"
+                android:id="@+id/widthText"
+                android:layout_weight="0.33"
+                android:gravity="center_vertical|center_horizontal" />
+
+            <TextView
+                android:layout_width="186dp"
+                android:layout_height="wrap_content"
+                android:text="0.0 m"
+                android:id="@+id/diagonalText"
+                android:layout_weight="0.33"
+                android:gravity="center_vertical|center_horizontal" />
+
+            <TextView
+                android:layout_width="186dp"
+                android:layout_height="wrap_content"
+                android:text="0.0 m"
+                android:id="@+id/heightText"
+                android:layout_weight="0.33"
+                android:gravity="center_vertical|center_horizontal" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:gravity="bottom"
+        android:weightSum="1"
+        android:layout_weight="0.12"
+        android:layout_gravity="center">
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Edit"
+            android:id="@+id/editButton"
+            android:layout_gravity="center|left"
+            android:layout_weight="0.5" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Share"
+            android:id="@+id/shareButton"
+            android:layout_gravity="center" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Remove"
+            android:id="@+id/removeButton"
+            android:layout_weight="0.32"
+            android:layout_gravity="center|right" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:id="@+id/scrollView"
+        android:layout_weight="0.45"
+        android:fillViewport="true"
+        android:measureAllChildren="true">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:measureWithLargestChild="false">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dinner Table"
+                android:id="@+id/button" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dinner Chair"
+                android:id="@+id/button2" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bed"
+                android:id="@+id/button3" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Desk"
+                android:id="@+id/button4" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nightstand"
+                android:id="@+id/button5" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
