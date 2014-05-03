@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MeasureActivity" />
+        <activity android:name=".BrowseDetailsActivity" />
     </application>
 
 </manifest>
