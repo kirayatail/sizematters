@@ -128,6 +128,11 @@ public class MainActivity extends Activity implements SensorEventListener{
             linear_acceleration[1] = event.values[1] - gravity[1];
             linear_acceleration[2] = event.values[2] - gravity[2];
   */
+
+            oldLinear_acceleration[0] =linear_acceleration[0];
+            oldLinear_acceleration[1] =linear_acceleration[1];
+            oldLinear_acceleration[2] =linear_acceleration[2];
+
             linear_acceleration[0] = event.values[0];
             linear_acceleration[1] = event.values[1];
             linear_acceleration[2] = event.values[2];
@@ -159,20 +164,22 @@ public class MainActivity extends Activity implements SensorEventListener{
 //            double avgX = calculateAverage(listAccX);
 //            double avgY = calculateAverage(listAccY);
 //            double avgZ = calculateAverage(listAccZ);
-
+            oldspeed[0] =speed[0];
+            oldspeed[1] =speed[1];
+            oldspeed[2] =speed[2];
             if(linear_acceleration[0]!=0){
-                speed[0] = speed[0]+ linear_acceleration[0] * sec;
+                speed[0] = speed[0]+ ((linear_acceleration[0]+oldLinear_acceleration[0])/2) * sec;
             }else{
                 speed[0] =0;
             }
 
             if(linear_acceleration[1]!=0){
-                speed[1] = speed[1]+ linear_acceleration[1] * sec;
+                speed[1] = speed[1]+ ((linear_acceleration[1]+oldLinear_acceleration[1])/2) * sec;
             }else{
                 speed[1] =0;
             }
             if(linear_acceleration[2]!=0){
-                speed[2] = speed[2]+ linear_acceleration[2] * sec;
+                speed[2] = speed[2]+ ((linear_acceleration[2]+oldLinear_acceleration[2])/2) * sec;
             }else{
                 speed[2] =0;
             }
@@ -188,9 +195,9 @@ public class MainActivity extends Activity implements SensorEventListener{
    //         double totalTime = avgSec * listTime.size();
          //   double totalTime2 = totalTime * totalTime;
 
-            distance[0] = distance[0] + speed[0] * sec;
-            distance[1] = distance[1] + speed[1] * sec;
-            distance[2] = distance[2] + speed[2] * sec;
+            distance[0] = distance[0] + ((speed[0]+oldspeed[0])/2) * sec;
+            distance[1] = distance[1] + ((speed[1]+oldspeed[1])/2) * sec;
+            distance[2] = distance[2] + ((speed[2]+oldspeed[2])/2) * sec;
             //distance[0] = (avgX * totalTime2) ;
             //distance[1] = (avgY * totalTime2) ;
             //distance[2] = (avgZ * totalTime2) ;
@@ -229,6 +236,7 @@ public class MainActivity extends Activity implements SensorEventListener{
 
 
         }
+
 
         oldTimeStamp = event.timestamp;
 
