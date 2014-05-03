@@ -13,5 +13,6 @@
     <string name="textView7">New Text</string>
     <string name="textView8">New Text</string>
     <string name="textView9">New Text</string>
+    <string name="show_detailsView">Show measurements</string>
 
 </resources>

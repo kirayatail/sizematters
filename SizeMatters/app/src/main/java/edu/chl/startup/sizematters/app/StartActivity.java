@@ -1,6 +1,7 @@
 package edu.chl.startup.sizematters.app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,8 +16,9 @@ public class StartActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.startactivitylayout);
+
         Bundle extras = getIntent().getExtras();
-        if(extras.containsKey(Constants.SIZEOBJECT_ID)) {
+        if(extras != null && extras.containsKey(Constants.SIZEOBJECT_ID)) {
             this.currentObjectID = extras.getString(Constants.SIZEOBJECT_ID);
         }
 
@@ -25,7 +27,7 @@ public class StartActivity extends Activity {
 
     private void setupControlBindings() {
 
-        Button startButton = (Button) findViewById(R.id.startbutton);
+        Button startButton = (Button) findViewById(R.id.startActivity_startButton);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -33,10 +35,33 @@ public class StartActivity extends Activity {
             }
         });
 
+        Button showDetailsButton = (Button) findViewById(R.id.startActivity_ShowDetailsButton);
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showMeasurements();
+            }
+        });
+
+
+    }
+
+    private void showMeasurements() {
+        Intent activityIntent = new Intent(StartActivity.this, MeasureActivity.class);
+        if (currentObjectID != null) {
+            activityIntent.putExtra(Constants.SIZEOBJECT_ID, currentObjectID);
+        }
+        startActivity(activityIntent);
+        finish();
     }
 
     private void startMeasurement() {
-        
+        Intent activityIntent = new Intent(StartActivity.this, MeasureActivity.class);
+        if (currentObjectID != null) {
+            activityIntent.putExtra(Constants.SIZEOBJECT_ID, currentObjectID);
+        }
+        startActivity(activityIntent);
+        finish();
     }
 
 
