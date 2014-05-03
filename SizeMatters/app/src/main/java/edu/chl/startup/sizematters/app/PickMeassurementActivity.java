@@ -86,12 +86,12 @@ public class PickMeassurementActivity extends Activity {
         TextView xValView = (TextView) findViewById(R.id.xValue);
         x = values[0];
         xValView.setText(nicefy(x));
-        TextView yValView = (TextView) findViewById(R.id.yValue);
+        //TextView yValView = (TextView) findViewById(R.id.yValue);
         y = values[1];
-        yValView.setText(nicefy(y));
-        TextView zValView = (TextView) findViewById(R.id.zValue);
+        //yValView.setText(nicefy(y));
+        //TextView zValView = (TextView) findViewById(R.id.zValue);
         z = +values[2];
-        zValView.setText(nicefy(z));
+        //zValView.setText(nicefy(z));
 
         TextView distValView = (TextView) findViewById(R.id.distValue);
         distValView.setText(nicefy(calcDistance(values[0], values[1], values[2])));
@@ -108,7 +108,7 @@ public class PickMeassurementActivity extends Activity {
     }
 
     private double calcDistance(double... vals){
-       return vals[0] + vals[1] + vals[2];
+       return x;
     }
 
     private void initCheckBoxes() {
@@ -163,7 +163,7 @@ public class PickMeassurementActivity extends Activity {
         ArrayList<Double> values = new ArrayList<Double>();
         if(distance){
             types.add(Constants.DISTANCE);
-            values.add(calcDistance(x, y, z)); //TODO check what values to cal on
+            values.add(x); //TODO check what values to cal on
         }
         if(area){
             types.add(Constants.AREA);
