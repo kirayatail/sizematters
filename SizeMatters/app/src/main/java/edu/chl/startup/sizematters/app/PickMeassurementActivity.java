@@ -1,7 +1,6 @@
 package edu.chl.startup.sizematters.app;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -77,16 +76,20 @@ public class PickMeassurementActivity extends Activity {
         //TODO check index out of bounds
         TextView xValView = (TextView) findViewById(R.id.xValue);
         x = values[0];
-        xValView.setText(""+x);
+        xValView.setText(nicefy(x));
         TextView yValView = (TextView) findViewById(R.id.yValue);
         y = values[1];
-        yValView.setText(""+y);
+        yValView.setText(nicefy(y));
         TextView zValView = (TextView) findViewById(R.id.zValue);
         z = +values[2];
-        zValView.setText(""+z);
+        zValView.setText(nicefy(z));
 
         TextView distValView = (TextView) findViewById(R.id.distValue);
-        distValView.setText("Dummy dist: "+calcDistance(values[0], values[1], values[2]));
+        distValView.setText(nicefy(calcDistance(values[0], values[1], values[2])));
+    }
+
+    private String nicefy(double d){
+        return String.format("%.3f%n", d);
     }
 
     private double calcDistance(double... vals){
