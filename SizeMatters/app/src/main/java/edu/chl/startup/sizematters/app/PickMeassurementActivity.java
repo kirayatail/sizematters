@@ -95,6 +95,12 @@ public class PickMeassurementActivity extends Activity {
 
         TextView distValView = (TextView) findViewById(R.id.distValue);
         distValView.setText(nicefy(calcDistance(values[0], values[1], values[2])));
+
+        TextView areaValView = (TextView) findViewById(R.id.areaValue);
+        areaValView.setText(nicefy(calcAREA(x,y)));
+
+        TextView volValView = (TextView) findViewById(R.id.volValue);
+        volValView.setText(nicefy(calcVol(x,y,z)));
     }
 
     private String nicefy(double d){
