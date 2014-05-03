@@ -5,6 +5,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -133,6 +134,9 @@ public class DummyMeassurer implements SensorEventListener {
             if(linear_acceleration[2]<0.04){
                 linear_acceleration[2]=0;
             }
+            Log.d("acc",""+linear_acceleration[0]);
+            Log.d("acc",""+linear_acceleration[1]);
+            Log.d("acc",""+linear_acceleration[2]);
 
             listAccX.add(linear_acceleration[0]);
             listAccY.add(linear_acceleration[1]);
@@ -200,7 +204,9 @@ public class DummyMeassurer implements SensorEventListener {
                 distanceZ.setText("distance z:" + String.format("%.3f%n", distance[2]*100*magicalNummber));
             */
 
-
+                Log.d("distance",""+distance[0]*100*magicalNummber);
+                Log.d("distance",""+distance[0]*100*magicalNummber);
+                Log.d("distance",""+distance[0]*100*magicalNummber);
             }
             double temp = linear_acceleration[0];
 
