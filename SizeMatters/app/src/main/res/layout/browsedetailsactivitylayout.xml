@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Width:"
-                android:id="@+id/textView2"
+                android:id="@+id/objectWidth"
                 android:layout_weight="0.33"
                 android:textAlignment="center"
                 android:gravity="center_vertical|center_horizontal" />
@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Diagonal"
-                android:id="@+id/textView3"
+                android:id="@+id/objectDiagonal"
                 android:layout_weight="0.33"
                 android:gravity="center_vertical|center_horizontal" />
 
@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Height"
-                android:id="@+id/textView4"
+                android:id="@+id/objectHeight"
                 android:layout_weight="0.33"
                 android:gravity="center|center_vertical" />
         </LinearLayout>
@@ -68,7 +68,7 @@
                 android:layout_width="188dp"
                 android:layout_height="wrap_content"
                 android:text="0.0 m"
-                android:id="@+id/widthText"
+                android:id="@+id/valueWidth"
                 android:layout_weight="0.33"
                 android:gravity="center_vertical|center_horizontal" />
 
@@ -76,7 +76,7 @@
                 android:layout_width="186dp"
                 android:layout_height="wrap_content"
                 android:text="0.0 m"
-                android:id="@+id/diagonalText"
+                android:id="@+id/valueDiagonal"
                 android:layout_weight="0.33"
                 android:gravity="center_vertical|center_horizontal" />
 
@@ -84,7 +84,7 @@
                 android:layout_width="186dp"
                 android:layout_height="wrap_content"
                 android:text="0.0 m"
-                android:id="@+id/heightText"
+                android:id="@+id/valueHeight"
                 android:layout_weight="0.33"
                 android:gravity="center_vertical|center_horizontal" />
         </LinearLayout>
