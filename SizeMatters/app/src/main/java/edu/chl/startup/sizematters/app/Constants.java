@@ -6,4 +6,5 @@ package edu.chl.startup.sizematters.app;
 public class Constants {
 
     public static final String SIZEOBJECT_ID = "SizeObject_ID";
+    public static final String RAWMEASSUREMENT_KEY = "Meassurement_Array";
 }
