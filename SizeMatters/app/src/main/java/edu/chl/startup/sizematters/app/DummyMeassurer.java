@@ -55,7 +55,7 @@ public class DummyMeassurer implements SensorEventListener {
     private ArrayList<Double> listAccZ = new ArrayList<Double>();
 
     private ArrayList<Double> accuresityArray = new ArrayList<Double>();
-
+    static DummyMeassurer  db;
 
     double timeTaken = 0;
 
@@ -65,18 +65,16 @@ public class DummyMeassurer implements SensorEventListener {
 
 
     public static boolean startMeassure(Activity a){
-
+        db=new DummyMeassurer();
         mSensorManager = (SensorManager)a.getSystemService(a.SENSOR_SERVICE);
         mLinearAccelerator = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 
-        mSensorManager.registerListener(new DummyMeassurer(), mLinearAccelerator, SensorManager.SENSOR_DELAY_FASTEST);
-
-
-
+        mSensorManager.registerListener(db, mLinearAccelerator, SensorManager.SENSOR_DELAY_NORMAL);
         return true;
     }
 
     public static double[] stopMeassure(Activity a){
+        mSensorManager.unregisterListener(db);
         return new double[] {distance[0]*100*magicalNummber, distance[1]*100*magicalNummber, distance[0]*100*magicalNummber};
     }
 
