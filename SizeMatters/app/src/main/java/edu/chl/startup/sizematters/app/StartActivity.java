@@ -11,7 +11,7 @@ import android.widget.Button;
  */
 public class StartActivity extends Activity {
 
-    private String currentObjectID = null;
+    private int currentObjectID = -1;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,7 +19,7 @@ public class StartActivity extends Activity {
 
         Bundle extras = getIntent().getExtras();
         if(extras != null && extras.containsKey(Constants.SIZEOBJECT_ID)) {
-            this.currentObjectID = extras.getString(Constants.SIZEOBJECT_ID);
+            this.currentObjectID = extras.getInt(Constants.SIZEOBJECT_ID);
         }
 
         setupControlBindings();
@@ -47,21 +47,17 @@ public class StartActivity extends Activity {
     }
 
     private void showMeasurements() {
-        Intent activityIntent = new Intent(StartActivity.this, MeasureActivity.class);
-        if (currentObjectID != null) {
-            activityIntent.putExtra(Constants.SIZEOBJECT_ID, currentObjectID);
-        }
+        Intent activityIntent = new Intent(StartActivity.this, BrowseDetailsActivity.class);
         startActivity(activityIntent);
         finish();
     }
 
     private void startMeasurement() {
         Intent activityIntent = new Intent(StartActivity.this, MeasureActivity.class);
-        if (currentObjectID != null) {
+        if (currentObjectID != -1) {
             activityIntent.putExtra(Constants.SIZEOBJECT_ID, currentObjectID);
         }
         startActivity(activityIntent);
-        finish();
     }
 
 

@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme">
+    <style name="AppTheme" parent="android:Theme.Holo">
         <item name="android:background">#ff153169</item>
     </style>
 
