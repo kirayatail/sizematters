@@ -10,11 +10,13 @@ import java.util.Set;
  * Created by max on 2014-05-03.
  */
 public class SizeObject {
+    private String id;
     private String name;
     private String description;
     private Map <String, Double> measurements;
 
-    public SizeObject() {
+    public SizeObject(String id) {
+        this.id = id;
         name = "";
         description = "";
         measurements = new HashMap<String, Double>();
