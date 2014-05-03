@@ -83,11 +83,11 @@ public class DummyMeassurer implements SensorEventListener {
         // alpha is calculated as t / (t + dT)
         // with t, the low-pass filter's time-constant
         // and dT, the event delivery rate
-        if(oldTimeStamp==0){
+        if (oldTimeStamp == 0) {
             oldTimeStamp = event.timestamp;
         }
-        if(startTimeStamp==0){
-            startTimeStamp=event.timestamp;
+        if (startTimeStamp == 0) {
+            startTimeStamp = event.timestamp;
         }
         //  Log.d("messuer",""+event.);
 
@@ -99,9 +99,9 @@ public class DummyMeassurer implements SensorEventListener {
         gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
         gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
         */
-        timeTaken = event.timestamp-startTimeStamp;
+        timeTaken = event.timestamp - startTimeStamp;
         // Log.d("Messuer",Double.toString(timeTaken));
-        if(timeTaken > (double)(100000000.0)) {
+        if (timeTaken > (double) (100000000.0)) {
 
 
 
@@ -111,28 +111,25 @@ public class DummyMeassurer implements SensorEventListener {
             linear_acceleration[2] = event.values[2] - gravity[2];
   */
 
-            oldLinear_acceleration[0] =linear_acceleration[0];
-            oldLinear_acceleration[1] =linear_acceleration[1];
-            oldLinear_acceleration[2] =linear_acceleration[2];
+            oldLinear_acceleration[0] = linear_acceleration[0];
+            oldLinear_acceleration[1] = linear_acceleration[1];
+            oldLinear_acceleration[2] = linear_acceleration[2];
 
             linear_acceleration[0] = event.values[0];
             linear_acceleration[1] = event.values[1];
             linear_acceleration[2] = event.values[2];
 
 
-            if(linear_acceleration[0]<0.04){
-                linear_acceleration[0]=0;
+            if (linear_acceleration[0] < 0.04) {
+                linear_acceleration[0] = 0;
             }
 
-            if(linear_acceleration[1]<0.04){
-                linear_acceleration[1]=0;
+            if (linear_acceleration[1] < 0.04) {
+                linear_acceleration[1] = 0;
             }
-            if(linear_acceleration[2]<0.04){
-                linear_acceleration[2]=0;
+            if (linear_acceleration[2] < 0.04) {
+                linear_acceleration[2] = 0;
             }
-           // Log.d("acc",""+linear_acceleration[0]);
-           // Log.d("acc",""+linear_acceleration[1]);
-           // Log.d("acc",""+linear_acceleration[2]);
 
             listAccX.add(linear_acceleration[0]);
             listAccY.add(linear_acceleration[1]);
@@ -149,70 +146,75 @@ public class DummyMeassurer implements SensorEventListener {
 //            double avgX = calculateAverage(listAccX);
 //            double avgY = calculateAverage(listAccY);
 //            double avgZ = calculateAverage(listAccZ);
-            oldspeed[0] =speed[0];
-            oldspeed[1] =speed[1];
-            oldspeed[2] =speed[2];
-            if(linear_acceleration[0]!=0){
-                speed[0] = speed[0]+ ((linear_acceleration[0]+oldLinear_acceleration[0])/2) * sec;
-            }else{
-                speed[0] =0;
+            oldspeed[0] = speed[0];
+            oldspeed[1] = speed[1];
+            oldspeed[2] = speed[2];
+            if (linear_acceleration[0] != 0) {
+                speed[0] = speed[0] + ((linear_acceleration[0] + oldLinear_acceleration[0]) / 2) * sec;
+            } else {
+                speed[0] = 0;
             }
 
-            if(linear_acceleration[1]!=0){
-                speed[1] = speed[1]+ ((linear_acceleration[1]+oldLinear_acceleration[1])/2) * sec;
-            }else{
-                speed[1] =0;
+            if (linear_acceleration[1] != 0) {
+                speed[1] = speed[1] + ((linear_acceleration[1] + oldLinear_acceleration[1]) / 2) * sec;
+            } else {
+                speed[1] = 0;
             }
-            if(linear_acceleration[2]!=0){
-                speed[2] = speed[2]+ ((linear_acceleration[2]+oldLinear_acceleration[2])/2) * sec;
-            }else{
-                speed[2] =0;
+            if (linear_acceleration[2] != 0) {
+                speed[2] = speed[2] + ((linear_acceleration[2] + oldLinear_acceleration[2]) / 2) * sec;
+            } else {
+                speed[2] = 0;
             }
 
-            distance[0] = distance[0] + speed[0] * sec;
-            distance[1] = distance[1] + speed[1]+oldspeed[1] * sec;
-            distance[2] = distance[2] + speed[2]+oldspeed[2] * sec;
+
+//            speed[0] = avgX * avgSec;
+//            speed[1] = avgY * avgSec;
+//            speed[2] = avgZ * avgSec;
+
+
+            //         double totalTime = avgSec * listTime.size();
+            //   double totalTime2 = totalTime * totalTime;
+
+            distance[0] = distance[0] + ((speed[0] + oldspeed[0]) / 2) * sec;
+            distance[1] = distance[1] + ((speed[1] + oldspeed[1]) / 2) * sec;
+            distance[2] = distance[2] + ((speed[2] + oldspeed[2]) / 2) * sec;
             //distance[0] = (avgX * totalTime2) ;
             //distance[1] = (avgY * totalTime2) ;
             //distance[2] = (avgZ * totalTime2) ;
 
-            timeTaken = (event.timestamp - oldTimeStamp)/(double)(1000000000);
-            if(listTime.size()%5==0) {
+            timeTaken = (event.timestamp - oldTimeStamp) / (double) (1000000000);
+            if (listTime.size() % 5 == 0) {
 
                 //            accX.setText("acclaration x:" + String.format("%.3f%n", avgX));
                 //          accY.setText("acclaration y:" + String.format("%.3f%n", avgY));
                 //          accZ.setText("acclaration z:" + String.format("%.3f%n", avgZ));
-                double accuresityInt= linear_acceleration[0]+linear_acceleration[1]+linear_acceleration[2];
+                double accuresityInt = linear_acceleration[0] + linear_acceleration[1] + linear_acceleration[2];
 
                 accuresityArray.add(accuresityInt);
 
-                double accuresityAvr=calculateAverageEnd(accuresityArray,8);
+                double accuresityAvr = calculateAverageEnd(accuresityArray, 8);
 
 
-          /*      speedX.setText("speed x:" + String.format("%.3f%n", speed[0]));
-                speedY.setText("speed y:" + String.format("%.3f%n", speed[1]));
-                speedZ.setText("speed z:" + String.format("%.3f%n", speed[2]));
+          
 
-                accuresity.setText("speed z:" + String.format("%.3f%n", accuresityInt));
-
-                distanceX.setText("distance x:" + String.format("%.3f%n", distance[0]*100*magicalNummber));
-                distanceY.setText("distance y:" + String.format("%.3f%n", distance[1]*100*magicalNummber));
-                distanceZ.setText("distance z:" + String.format("%.3f%n", distance[2]*100*magicalNummber));
-            */
-
-           //     Log.d("distance",""+distance[0]*100*magicalNummber);
-           //     Log.d("distance",""+distance[0]*100*magicalNummber);
-           //     Log.d("distance",""+distance[0]*100*magicalNummber);
             }
             double temp = linear_acceleration[0];
 
+            //   Log.d("ACCX", Double.toString(linear_acceleration[0]));
+            //   Log.d("ACCY", Double.toString(linear_acceleration[1]));
+            //   Log.d("ACCZ", Double.toString(linear_acceleration[2]));
 
-        }else {
+
+        } else {
+            // Log.d("before ACCX", Double.toString(event.values[0]));
+            // Log.d("before ACCY", Double.toString(event.values[1]));
+            // Log.d("before ACCZ", Double.toString(event.values[2]));
 
 
-            oldTimeStamp = event.timestamp;
         }
 
+
+        oldTimeStamp = event.timestamp;
     }
 
     @Override

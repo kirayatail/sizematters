@@ -367,19 +367,14 @@ public class MainActivity extends Activity implements SensorEventListener{
 
 
 
-
         distanceX = (TextView) findViewById(R.id.distanceX);
         distanceY = (TextView) findViewById(R.id.distanceY);
         distanceZ = (TextView) findViewById(R.id.distanceZ);
 
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
-
-
         mLinearAccelerator = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 
-        mSensorManager.registerListener
-
-                (this, mLinearAccelerator, SensorManager.SENSOR_DELAY_FASTEST);
+        mSensorManager.registerListener(this, mLinearAccelerator, SensorManager.SENSOR_DELAY_FASTEST);
 
 
 
