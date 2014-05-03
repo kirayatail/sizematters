@@ -29,6 +29,8 @@ public class SizeObject implements Serializable {
     private String description;
     private Map <String, Double> measurements;
 
+
+
     public SizeObject(Activity act) {
         this.id = DataHandler.getNextID(act);
         name = "";
@@ -110,6 +112,10 @@ public class SizeObject implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {

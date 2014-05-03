@@ -21,6 +21,9 @@ public class PickMeassurementActivity extends Activity {
     private double x;
     private double y;
     private double z;
+    private boolean distance;
+    private boolean area;
+    private boolean volume;
 
 
     @Override
@@ -66,10 +69,14 @@ public class PickMeassurementActivity extends Activity {
             if(view.getId() == R.id.backButton){
                 //TODO do stuff
             } else if(view.getId() == R.id.saveButton){
-                //Go to Browse details activity
-                viewDetails(calcDistance(x,y,z), Constants.MEASURE_TYPE.DISTANCE);
+               editDetails();
             }
         }
+    }
+
+    private void prepareDetails() {
+
+
     }
 
     private void setValues(double[] values) {
@@ -105,28 +112,72 @@ public class PickMeassurementActivity extends Activity {
         cbY.setOnCheckedChangeListener(cbl);
         cbZ.setOnCheckedChangeListener(cbl);
 
+        CheckBox cbD = (CheckBox)findViewById(R.id.distCheckBox);
+        CheckBox cbA = (CheckBox)findViewById(R.id.areaCheckBox);
+        CheckBox cbV = (CheckBox)findViewById(R.id.volCheckBox);
+
+        distance = cbD.isChecked();
+        area = cbA.isChecked();
+        volume = cbV.isChecked();
+
+        cbX.setOnCheckedChangeListener(cbl);
+        cbY.setOnCheckedChangeListener(cbl);
+        cbZ.setOnCheckedChangeListener(cbl);
+
+
+
     }
 
     private class CBListener implements CompoundButton.OnCheckedChangeListener {
 
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-            if(compoundButton.getId() == R.id.xCheckBox){
-                //Fix stuff
+            switch (compoundButton.getId()){
+                case R.id.volCheckBox : volume = compoundButton.isChecked();
+                    break;
+                case R.id.areaCheckBox : area = compoundButton.isChecked();
+                    break;
+                case R.id.distCheckBox : distance = compoundButton.isChecked();
+                    break;
             }
 
         }
     }
 
-    private void viewDetails(double value, Constants.MEASURE_TYPE type) {
-        Intent activityIntent = new Intent(PickMeassurementActivity.this, BrowseDetailsActivity.class);
+    private void editDetails() {
+        Intent activityIntent = new Intent(PickMeassurementActivity.this, EditObjectActivity.class);
         if (currentObjectID != -1) {
             activityIntent.putExtra(Constants.SIZEOBJECT_ID, currentObjectID);
 
         }
-        activityIntent.putExtra(Constants.AGG_MEASSURMENT_KEY, value);
-        activityIntent.putExtra(Constants.MEASSURMENT_TYPE_KEY, type);
+
+        String[] types = new String[3];
+        double[] values = new double[3];
+        if(distance){
+            types[0] = Constants.DISTANCE;
+            values[0] = calcDistance(x,y,z); //TODO check what values to cal on
+        }
+        if(area){
+            types[1] = Constants.AREA;
+            values[1] = calcAREA(x,y); //TODO check what values to cal on
+        }
+        if(volume){
+            types[2] = Constants.DISTANCE;
+            values[2] = calcVol(x,y,z); //TODO check what values to cal on
+        }
+
+
+        activityIntent.putExtra(Constants.AGG_MEASSURMENT_KEY, values);
+        activityIntent.putExtra(Constants.MEASSURMENT_TYPE_KEY, types);
         startActivity(activityIntent);
+    }
+
+    private double calcVol(double x, double y, double z) {
+        return x*y*z;
+    }
+
+    private double calcAREA(double x, double y) {
+        return x*y;
     }
 
 
